@@ -136,6 +136,7 @@
             // 
             this.gbCounting.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbCounting.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.gbCounting.Controls.Add(this.tbRo);
             this.gbCounting.Controls.Add(this.label5);
             this.gbCounting.Controls.Add(this.tbKxy);
@@ -167,6 +168,7 @@
             this.tbRo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbRo.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbRo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbRo.Location = new System.Drawing.Point(389, 142);
             this.tbRo.Name = "tbRo";
             this.tbRo.ReadOnly = true;
@@ -188,6 +190,7 @@
             this.tbKxy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbKxy.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbKxy.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbKxy.Location = new System.Drawing.Point(389, 108);
             this.tbKxy.Name = "tbKxy";
             this.tbKxy.ReadOnly = true;
@@ -209,6 +212,7 @@
             this.tbDispersionY.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbDispersionY.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbDispersionY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbDispersionY.Location = new System.Drawing.Point(389, 73);
             this.tbDispersionY.Name = "tbDispersionY";
             this.tbDispersionY.ReadOnly = true;
@@ -228,6 +232,7 @@
             // tbDispersionX
             // 
             this.tbDispersionX.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbDispersionX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbDispersionX.Location = new System.Drawing.Point(152, 73);
             this.tbDispersionX.Name = "tbDispersionX";
             this.tbDispersionX.ReadOnly = true;
@@ -249,6 +254,7 @@
             this.tbRootMeanSqY.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbRootMeanSqY.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbRootMeanSqY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbRootMeanSqY.Location = new System.Drawing.Point(529, 44);
             this.tbRootMeanSqY.Name = "tbRootMeanSqY";
             this.tbRootMeanSqY.ReadOnly = true;
@@ -270,6 +276,7 @@
             this.tbRootMeanSqX.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbRootMeanSqX.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbRootMeanSqX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbRootMeanSqX.Location = new System.Drawing.Point(529, 18);
             this.tbRootMeanSqX.Name = "tbRootMeanSqX";
             this.tbRootMeanSqX.ReadOnly = true;
@@ -289,6 +296,7 @@
             // tbExpectedValueY
             // 
             this.tbExpectedValueY.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbExpectedValueY.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbExpectedValueY.Location = new System.Drawing.Point(152, 42);
             this.tbExpectedValueY.Name = "tbExpectedValueY";
             this.tbExpectedValueY.ReadOnly = true;
@@ -308,11 +316,12 @@
             // tbExpectedValueX
             // 
             this.tbExpectedValueX.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbExpectedValueX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbExpectedValueX.Location = new System.Drawing.Point(152, 18);
             this.tbExpectedValueX.Name = "tbExpectedValueX";
             this.tbExpectedValueX.ReadOnly = true;
             this.tbExpectedValueX.Size = new System.Drawing.Size(100, 22);
-            this.tbExpectedValueX.TabIndex = 2;
+            this.tbExpectedValueX.TabIndex = 1;
             // 
             // label1
             // 
@@ -359,7 +368,7 @@
             this.rtbLog.Name = "rtbLog";
             this.rtbLog.ReadOnly = true;
             this.rtbLog.Size = new System.Drawing.Size(652, 132);
-            this.rtbLog.TabIndex = 0;
+            this.rtbLog.TabIndex = 1;
             this.rtbLog.Text = "";
             // 
             // MainForm
@@ -375,6 +384,7 @@
             this.MinimumSize = new System.Drawing.Size(968, 460);
             this.Name = "MainForm";
             this.Text = "Третья лабораторная работа";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSelection)).EndInit();

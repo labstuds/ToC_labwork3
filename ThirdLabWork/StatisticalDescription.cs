@@ -5,6 +5,16 @@ using System.Text;
 using System.IO;
 namespace ThirdLabWork
 {
+    public struct Pair
+    {
+        public Double x;
+        public Double y;
+        public Pair(Double x, Double y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+    }
     /// <summary>
     /// Статистическое описание и вычисление оценок параметров
     /// распределения двумерного случайного вектора
@@ -12,10 +22,10 @@ namespace ThirdLabWork
     public class StatisticalDescription
     {
         // Выборка
-        private SortedList<Double, Double> selection = new SortedList<double, double>();
-        public SortedList<Double, Double> Selection { get { return selection; } }
+        private List<Pair> selection = new List<Pair>();
+        public List<Pair> Selection { get { return selection; } }
         public StatisticalDescription() { }
-        public StatisticalDescription(SortedList<Double, Double> selection)
+        public StatisticalDescription(List<Pair> selection)
         {
             this.selection = selection;
         }
@@ -50,9 +60,21 @@ namespace ThirdLabWork
         // Выборочный коэффициент корреляции
         public Double selectiveCorrelationCoeff()
         {
+            Double[] xValues = new Double[selection.Count];
+            Double[] yValues = new Double[selection.Count];
             Double numerator = selectiveCorrelationTime();
-            Double denominator = rootMeanSquare(selection.Keys.ToArray()) * rootMeanSquare(selection.Values.ToArray());
+            extractCoordsToArray(xValues, yValues, selection);
+            Double denominator = rootMeanSquare(xValues) * rootMeanSquare(yValues);
             return numerator / denominator;
+        }
+
+        public static void extractCoordsToArray(Double[] xValues, Double[] yValues, List<Pair> selection)
+        {
+            for (var i = 0; i < selection.Count; i++)
+            {
+                xValues[i] = selection[i].x;
+                yValues[i] = selection[i].y;
+            }
         }
         #endregion
 
@@ -80,10 +102,13 @@ namespace ThirdLabWork
         public Double countQxy()
         {
             Double sum = 0;
-            Double xAverageSimple = countExpectedValue(selection.Keys.ToArray());
-            Double yAverageSimple = countExpectedValue(selection.Values.ToArray());
+            Double[] xVals = new Double[selection.Count];
+            Double[] yVals = new Double[selection.Count];
+            extractCoordsToArray(xVals, yVals, selection); 
+            Double xAverageSimple = countExpectedValue(xVals);
+            Double yAverageSimple = countExpectedValue(yVals);
             foreach (var pair in selection)
-                sum += (pair.Key - xAverageSimple) * (pair.Value - yAverageSimple);
+                sum += (pair.x - xAverageSimple) * (pair.y - yAverageSimple);
             return sum;
         }
 

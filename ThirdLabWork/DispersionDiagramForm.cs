@@ -34,8 +34,11 @@ namespace ThirdLabWork
 
         private void drawAverageCoordsPoint(StatisticalDescription statDescr)
         {
+            Double[] xVals = new Double[statDescr.Selection.Count];
+            Double[] yVals = new Double[statDescr.Selection.Count];
+            StatisticalDescription.extractCoordsToArray(xVals, yVals, statDescr.Selection); 
             PointPairList lonelyPoint = new PointPairList();
-            lonelyPoint.Add(statDescr.countExpectedValue(statDescr.Selection.Keys.ToArray()), statDescr.countExpectedValue(statDescr.Selection.Values.ToArray()));
+            lonelyPoint.Add(statDescr.countExpectedValue(xVals), statDescr.countExpectedValue(yVals));
             LineItem averageCoordsPoint = grPane.AddCurve("AverageCoordsPoint", lonelyPoint, Color.Red, SymbolType.Circle);
             averageCoordsPoint.Symbol.Size = 10;
             averageCoordsPoint.Label.IsVisible = false;
@@ -46,6 +49,8 @@ namespace ThirdLabWork
             LoggerEvs.writeLog("Настройка графика...");
             grPane = zgDispersionDiagram.GraphPane;
             grPane.Title.Text = "";
+            //zgDispersionDiagram.IsShowCursorValues = true;
+            zgDispersionDiagram.IsShowPointValues = true; 
             //grPane.XAxis.Title.Text = "Ось X";
             //grPane.YAxis.Title.Text = "Ось Y";
             grPane.YAxis.Cross = 0.0;
@@ -57,10 +62,13 @@ namespace ThirdLabWork
 
         private void drawSelectionPoints(StatisticalDescription statDescr)
         {
+            Double[] xVals = new Double[statDescr.Selection.Count];
+            Double[] yVals = new Double[statDescr.Selection.Count];
+            StatisticalDescription.extractCoordsToArray(xVals, yVals, statDescr.Selection); 
             LoggerEvs.writeLog("Нанесение точек по координатам из выборки на график");
-            PointPairList pointsList = new PointPairList(statDescr.Selection.Keys.ToArray(), statDescr.Selection.Values.ToArray());            
+            PointPairList pointsList = new PointPairList(xVals, yVals);            
             foreach (var pair in statDescr.Selection)
-                LoggerEvs.writeLog(String.Format("({0:N4}; {1:N4})", pair.Key, pair.Value));
+                LoggerEvs.writeLog(String.Format("({0:N4}; {1:N4})", pair.x, pair.y));
             LineItem currentCurve = grPane.AddCurve("SelectionPoints", pointsList, Color.Blue, SymbolType.Circle);
             currentCurve.Line.IsVisible = false;
             currentCurve.Symbol.Fill.Color = Color.Blue;
@@ -71,38 +79,61 @@ namespace ThirdLabWork
 
         private void drawLineX()
         {
+            Double[] xVals = new Double[statDescr.Selection.Count];
+            Double[] yVals = new Double[statDescr.Selection.Count];
+            StatisticalDescription.extractCoordsToArray(xVals, yVals, statDescr.Selection); 
             LoggerEvs.writeLog("Построение линии регрессии с зависимостью от y");
             PointPairList linePointsList = new PointPairList();
-            Double xAverageValue = statDescr.countExpectedValue(statDescr.Selection.Keys.ToArray());
-            Double yAverageValue = statDescr.countExpectedValue(statDescr.Selection.Values.ToArray());            
-            Double betaOne = statDescr.countBetaOne(statDescr.Selection.Values.ToArray());
+            Double xAverageValue = statDescr.countExpectedValue(xVals);
+            Double yAverageValue = statDescr.countExpectedValue(yVals);
+            Double betaOne = statDescr.countBetaOne(yVals);
             Double betaZero = statDescr.countBetaZero(xAverageValue, yAverageValue, betaOne);
-            Double funcValue;
-            foreach (var value in statDescr.Selection.Keys.ToArray())
+            /*
+            foreach (var value in xVals)
             {
                 funcValue = f(value, betaZero, betaOne);
                 linePointsList.Add(funcValue, value);
                 LoggerEvs.writeLog(String.Format("Добавление точки ({0:N4}; {1:N4})", value, funcValue));
             }
+             */
+            Double funcValue;
+            funcValue = f(yVals.Max(), betaZero, betaOne);
+            linePointsList.Add(funcValue, yVals.Max());
+            LoggerEvs.writeLog(String.Format("Добавление точки ({0:N4}; {1:N4})", funcValue, yVals.Max()));
+            funcValue = f(0 - yVals.Min(), betaZero, betaOne);
+            linePointsList.Add(funcValue, 0 - yVals.Min());
+            LoggerEvs.writeLog(String.Format("Добавление точки ({0:N4}; {1:N4})", funcValue, 0 - yVals.Min()));
+
             LineItem lineCurve = grPane.AddCurve("LineX", linePointsList, Color.Green, SymbolType.None);
             lineCurve.Label.IsVisible = false;
         }
 
         private void drawLineY()
         {
+            Double[] xVals = new Double[statDescr.Selection.Count];
+            Double[] yVals = new Double[statDescr.Selection.Count];
+            StatisticalDescription.extractCoordsToArray(xVals, yVals, statDescr.Selection); 
             LoggerEvs.writeLog("Построение линии регрессии с зависимостью от x");
             PointPairList linePointsList = new PointPairList();
-            Double xAverageValue = statDescr.countExpectedValue(statDescr.Selection.Keys.ToArray());
-            Double yAverageValue = statDescr.countExpectedValue(statDescr.Selection.Values.ToArray());
-            Double betaOne = statDescr.countBetaOne(statDescr.Selection.Values.ToArray());
+            Double xAverageValue = statDescr.countExpectedValue(xVals);
+            Double yAverageValue = statDescr.countExpectedValue(yVals);
+            Double betaOne = statDescr.countBetaOne(yVals);
             Double betaZero = statDescr.countBetaZero(yAverageValue, xAverageValue, betaOne);
+            /*
             Double funcValue;
-            foreach (var value in statDescr.Selection.Values.ToArray())
+            foreach (var value in yVals)
             {
                 funcValue = f(value, betaZero, betaOne);
                 linePointsList.Add(value, funcValue);
                 LoggerEvs.writeLog(String.Format("Добавление точки ({0:N4}; {1:N4})", value, funcValue));
-            }
+            }*/
+            Double funcValue;
+            funcValue = f(xVals.Max(), betaZero, betaOne);
+            linePointsList.Add(xVals.Max(), funcValue);
+            LoggerEvs.writeLog(String.Format("Добавление точки ({0:N4}; {1:N4})", xVals.Max(), funcValue));
+            funcValue = f(0 - xVals.Min(), betaZero, betaOne);
+            linePointsList.Add(0 - xVals.Min(), funcValue);
+            LoggerEvs.writeLog(String.Format("Добавление точки ({0:N4}; {1:N4})", 0 - xVals.Min(), funcValue));
             LineItem lineCurve = grPane.AddCurve("LineY", linePointsList, Color.Green, SymbolType.None);
             lineCurve.Label.IsVisible = false;
         }

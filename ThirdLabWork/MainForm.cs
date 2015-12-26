@@ -13,7 +13,7 @@ namespace ThirdLabWork
     public partial class MainForm : Form
     {
         StatisticalDescription statDescr;
-        SortedList<Double, Double> selection = new SortedList<double, double>();
+        List<Pair> selection = new List<Pair>();
         public MainForm()
         {
             LoggerEvs.messageCame += writeLogNoteToWidget;            
@@ -34,7 +34,8 @@ namespace ThirdLabWork
             if (ofdReadSelection.FileName != null)
             {
                 selection = readSelectionFromFile(ofdReadSelection.FileName);
-                statDescr = new StatisticalDescription(selection); fillSelectionGrid();
+                statDescr = new StatisticalDescription(selection); 
+                fillSelectionGrid();
                 enableWidgs();
                 LoggerEvs.writeLog(String.Format("Выборка из файла {0} загружена", ofdReadSelection.FileName));                
                 countSelectionCharacteristics();
@@ -52,18 +53,21 @@ namespace ThirdLabWork
         /// </summary>
         private void countSelectionCharacteristics()
         {
+            Double[] xValues = new Double[selection.Count];
+            Double[] yValues = new Double[selection.Count];
+            StatisticalDescription.extractCoordsToArray(xValues, yValues, selection);
             LoggerEvs.writeLog("Расчет характеристик выборки");
-            tbDispersionX.Text = statDescr.countSampleVariance(selection.Keys.ToArray()).ToString("N5");
+            tbDispersionX.Text = statDescr.countSampleVariance(xValues).ToString("N5");
             LoggerEvs.writeLog("Дисперсия x = " + tbDispersionX.Text);
-            tbDispersionY.Text = statDescr.countSampleVariance(selection.Values.ToArray()).ToString("N5");
+            tbDispersionY.Text = statDescr.countSampleVariance(yValues).ToString("N5");
             LoggerEvs.writeLog("Дисперсия y = " + tbDispersionY.Text);
-            tbExpectedValueX.Text = statDescr.countExpectedValue(selection.Keys.ToArray()).ToString("N5");
+            tbExpectedValueX.Text = statDescr.countExpectedValue(xValues).ToString("N5");
             LoggerEvs.writeLog("Мат. ожидание x = " + tbExpectedValueX.Text);
-            tbExpectedValueY.Text = statDescr.countExpectedValue(selection.Values.ToArray()).ToString("N5");
+            tbExpectedValueY.Text = statDescr.countExpectedValue(yValues).ToString("N5");
             LoggerEvs.writeLog("Мат. ожидание y = " + tbExpectedValueY.Text);
-            tbRootMeanSqX.Text = statDescr.rootMeanSquare(selection.Keys.ToArray()).ToString("N5");
+            tbRootMeanSqX.Text = statDescr.rootMeanSquare(xValues).ToString("N5");
             LoggerEvs.writeLog("Среднее квадратическое x = " + tbRootMeanSqX.Text);
-            tbRootMeanSqY.Text = statDescr.rootMeanSquare(selection.Values.ToArray()).ToString("N5");
+            tbRootMeanSqY.Text = statDescr.rootMeanSquare(yValues).ToString("N5");
             LoggerEvs.writeLog("Среднее квадратическое y = " + tbRootMeanSqY.Text);
             tbKxy.Text = statDescr.selectiveCorrelationTime().ToString("N5");
             LoggerEvs.writeLog("Выборочный корреляционный момент Kxy = " + tbKxy.Text);
@@ -79,36 +83,36 @@ namespace ThirdLabWork
 
         private void fillSelectionGrid()
         {
+            LoggerEvs.writeLog("Очистить таблицу выборки");
+            dgvSelection.Rows.Clear();
             LoggerEvs.writeLog("Заполнить таблицу выборки");
             dgvSelection.Rows.Add(selection.Count);
             var i = 0;
             foreach (var pair in selection)
             {
-                dgvSelection.Rows[i].Cells[0].Value = pair.Key;
-                dgvSelection.Rows[i].Cells[1].Value = pair.Value;
+                dgvSelection.Rows[i].Cells[0].Value = pair.x;
+                dgvSelection.Rows[i].Cells[1].Value = pair.y;
                 i++;
             }
         }
 
-        private SortedList<Double, Double> readSelectionFromFile(String path)
+        private List<Pair> readSelectionFromFile(String path)
         {
-            SortedList<Double, Double> selection = new SortedList<double, double>();            
+            List<Pair> selection = new List<Pair>();            
             StreamReader srSelection = new StreamReader(path);
-            KeyValuePair<Double, Double> kvPair;
+            Pair kvPair;
             while(!srSelection.EndOfStream)
-            {
+            {                
                 kvPair = parseStr(srSelection.ReadLine());
-                selection.Add(kvPair.Key, kvPair.Value);
+                selection.Add(kvPair);
             }
             return selection;            
         }       
 
-        private KeyValuePair<Double, Double> parseStr(String toParse)
+        private Pair parseStr(String toParse)
         {            
             string[] values = toParse.Split(';');
-            Double key = Double.Parse(values[0]);
-            Double value = Double.Parse(values[1]);
-            KeyValuePair<Double, Double> kvPair = new KeyValuePair<double,double>(key, value);            
+            Pair kvPair = new Pair(Double.Parse(values[0]), Double.Parse(values[1]));
             return kvPair;
         }
 
@@ -167,7 +171,7 @@ namespace ThirdLabWork
             report.Append("ОТЧЕТ ПО ВЫБОРКЕ\r\n");
             report.Append("Объем выборки (x; y): " + statDescr.Selection.Count + "\r\n");
             foreach (var pair in statDescr.Selection)
-                report.Append(String.Format("({0}; {1})\r\n", pair.Key, pair.Value));
+                report.Append(String.Format("({0}; {1})\r\n", pair.x, pair.y));
         }
     }
 }
