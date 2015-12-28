@@ -73,6 +73,12 @@ namespace ThirdLabWork
             LoggerEvs.writeLog("Выборочный корреляционный момент Kxy = " + tbKxy.Text);
             tbRo.Text = statDescr.selectiveCorrelationCoeff().ToString("N5");
             LoggerEvs.writeLog("Выборочный коэффициент корреляции = " + tbRo.Text);
+            tbQx.Text = statDescr.countQ(xValues).ToString("N5");
+            LoggerEvs.writeLog("Qx = " + tbQx.Text);
+            tbQy.Text = statDescr.countQ(yValues).ToString("N5");
+            LoggerEvs.writeLog("Qy = " + tbQy.Text);
+            tbQxy.Text = statDescr.countQxy().ToString("N5");
+            LoggerEvs.writeLog("Qxy = " + tbQxy.Text);
         }
 
         private void enableWidgs()
@@ -133,29 +139,52 @@ namespace ThirdLabWork
             }
             else
             {
-                StringBuilder report = new StringBuilder();
-                // Сохранить выборку
-                saveSelectionElements(report);
-                // Сохранить математические характеристики
-                saveSelectionMathChars(report);
-                // Сохранить отчет
-                String filename = saveReportToFile(report);
-                MessageBox.Show("Отчет по выборке был сохранен в файл " + filename);
+                String path = makeReport();
+                String reportSaved = "Отчет по выборке был сохранен в файл " + path;
+                LoggerEvs.writeLog(reportSaved);
+                MessageBox.Show(reportSaved);
             }
+        }
+
+        private string makeReport()
+        {
+            StringBuilder report = new StringBuilder();
+            saveSelectionElements(report);
+            saveSelectionMathChars(report);
+            saveRegressionLines(report);
+            String path = saveReportToFile(report);
+            return path;
+        }
+
+        private void saveRegressionLines(StringBuilder report)
+        {
+            Double[] xVals = new Double[statDescr.Selection.Count];
+            Double[] yVals = new Double[statDescr.Selection.Count];
+            StatisticalDescription.extractCoordsToArray(xVals, yVals, statDescr.Selection);
+            Double xAverageValue = statDescr.countExpectedValue(xVals);
+            Double yAverageValue = statDescr.countExpectedValue(yVals);
+            Double betaOne = statDescr.countBetaOne(yVals);
+            Double betaZero = statDescr.countBetaZero(xAverageValue, yAverageValue, betaOne);
+            report.Append("Уравнения линий регрессии:\r\n");
+            report.Append(String.Format("x(y) = {0:N3} + {1:N3} * y\r\n", betaZero, betaOne));
+            betaOne = statDescr.countBetaOne(xVals);
+            betaZero = statDescr.countBetaZero(yAverageValue, xAverageValue, betaOne);
+            report.Append(String.Format("y(x) = {0:N3} + {1:N3} * x\r\n", betaZero, betaOne));
         }
 
         private String saveReportToFile(StringBuilder report)
         {
             String filename = String.Format("Report_{0:dd.MM.yyyy HH_mm_ss}.report", DateTime.Now);
-            StreamWriter swReport = new StreamWriter(filename);
+            String path = Path.Combine(Directory.GetCurrentDirectory(), filename);
+            StreamWriter swReport = new StreamWriter(path);
             swReport.Write(report.ToString());
             swReport.Close();
-            return filename;
+            return path;
         }
 
         private void saveSelectionMathChars(StringBuilder report)
         {
-            report.Append("Математические характеристики выборки\r\n");
+            report.Append("Математические характеристики выборки:\r\n");
             report.Append("Дисперсия по x = " + tbDispersionX.Text + "\r\n");
             report.Append("Дисперсия по y = " + tbDispersionY.Text + "\r\n");
             report.Append("Среднее квадратическое по x = " + tbRootMeanSqX.Text + "\r\n");
@@ -163,15 +192,36 @@ namespace ThirdLabWork
             report.Append("Мат. ожидание по x = " + tbExpectedValueX.Text + "\r\n");
             report.Append("Мат. ожидание по y = " + tbExpectedValueY.Text + "\r\n");
             report.Append("Выборочный корреляционный момент Kxy = " + tbKxy.Text + "\r\n");
-            report.Append("Выборочный коэффицеинт корреляции = " + tbRo.Text + "\r\n");
+            report.Append("Выборочный коэффицеинт корреляции = " + tbRo.Text + "\r\n");           
+            report.Append("Суммы квадратов отклонений от среднего:\r\n");
+            report.Append(String.Format("Qx = {0:5}, Qy = {1:5}\r\n", tbQx.Text, tbQy.Text));
+            report.Append("Сумма произведений отклонений от средних:\r\n");
+            report.Append(String.Format("Qxy = {0:5}\r\n", tbQxy.Text));
         }
 
         private void saveSelectionElements(StringBuilder report)
         {
-            report.Append("ОТЧЕТ ПО ВЫБОРКЕ\r\n");
-            report.Append("Объем выборки (x; y): " + statDescr.Selection.Count + "\r\n");
+            String header = createReportHeader();
+            report.Append(header);
+            report.Append("Объем выборки (x; y): " + statDescr.Selection.Count + " пар элементов.\r\n");
             foreach (var pair in statDescr.Selection)
                 report.Append(String.Format("({0}; {1})\r\n", pair.x, pair.y));
+        }
+
+        private static string createReportHeader()
+        {
+            String currentDate = String.Format("{0:dd.MM.yyyy HH:mm:ss}", DateTime.Now);
+            String headerText = String.Format("{0}\r\nОтчет по выборке\r\n", currentDate);
+            String header = new String('=', currentDate.Length + 2);
+            header += "\r\n";
+            return String.Concat(header, headerText, header);
+        }
+
+        private void формулыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoggerEvs.writeLog("Отобразить формулы");
+            Formulas formulas = new Formulas();
+            formulas.Show();
         }
     }
 }

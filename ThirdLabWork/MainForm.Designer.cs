@@ -36,6 +36,12 @@
             this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.gbCounting = new System.Windows.Forms.GroupBox();
+            this.tbQy = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.tbQxy = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.tbQx = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.tbRo = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tbKxy = new System.Windows.Forms.TextBox();
@@ -56,6 +62,7 @@
             this.ofdReadSelection = new System.Windows.Forms.OpenFileDialog();
             this.gbLog = new System.Windows.Forms.GroupBox();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
+            this.формулыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSelection)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -67,7 +74,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.открытьВыборкуToolStripMenuItem,
-            this.buildReport});
+            this.buildReport,
+            this.формулыToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.ShowItemToolTips = true;
@@ -104,7 +112,7 @@
             this.dgvSelection.Location = new System.Drawing.Point(3, 18);
             this.dgvSelection.Name = "dgvSelection";
             this.dgvSelection.ReadOnly = true;
-            this.dgvSelection.Size = new System.Drawing.Size(261, 367);
+            this.dgvSelection.Size = new System.Drawing.Size(261, 515);
             this.dgvSelection.TabIndex = 1;
             // 
             // X
@@ -127,7 +135,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(267, 388);
+            this.groupBox1.Size = new System.Drawing.Size(267, 536);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Выборка";
@@ -137,6 +145,12 @@
             this.gbCounting.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbCounting.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.gbCounting.Controls.Add(this.tbQy);
+            this.gbCounting.Controls.Add(this.label11);
+            this.gbCounting.Controls.Add(this.tbQxy);
+            this.gbCounting.Controls.Add(this.label10);
+            this.gbCounting.Controls.Add(this.tbQx);
+            this.gbCounting.Controls.Add(this.label9);
             this.gbCounting.Controls.Add(this.tbRo);
             this.gbCounting.Controls.Add(this.label5);
             this.gbCounting.Controls.Add(this.tbKxy);
@@ -158,10 +172,80 @@
             this.gbCounting.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.gbCounting.Location = new System.Drawing.Point(285, 27);
             this.gbCounting.Name = "gbCounting";
-            this.gbCounting.Size = new System.Drawing.Size(658, 231);
+            this.gbCounting.Size = new System.Drawing.Size(658, 265);
             this.gbCounting.TabIndex = 3;
             this.gbCounting.TabStop = false;
             this.gbCounting.Text = "Расчеты";
+            // 
+            // tbQy
+            // 
+            this.tbQy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbQy.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbQy.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbQy.Location = new System.Drawing.Point(284, 173);
+            this.tbQy.MaximumSize = new System.Drawing.Size(200, 22);
+            this.tbQy.MinimumSize = new System.Drawing.Size(200, 22);
+            this.tbQy.Name = "tbQy";
+            this.tbQy.ReadOnly = true;
+            this.tbQy.Size = new System.Drawing.Size(200, 22);
+            this.tbQy.TabIndex = 22;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label11.Location = new System.Drawing.Point(250, 173);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(28, 20);
+            this.label11.TabIndex = 21;
+            this.label11.Text = "Qy";
+            // 
+            // tbQxy
+            // 
+            this.tbQxy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbQxy.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbQxy.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbQxy.Location = new System.Drawing.Point(529, 173);
+            this.tbQxy.Name = "tbQxy";
+            this.tbQxy.ReadOnly = true;
+            this.tbQxy.Size = new System.Drawing.Size(123, 22);
+            this.tbQxy.TabIndex = 20;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label10.Location = new System.Drawing.Point(488, 173);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(35, 20);
+            this.label10.TabIndex = 19;
+            this.label10.Text = "Qxy";
+            // 
+            // tbQx
+            // 
+            this.tbQx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbQx.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbQx.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbQx.Location = new System.Drawing.Point(41, 173);
+            this.tbQx.MaximumSize = new System.Drawing.Size(203, 22);
+            this.tbQx.MinimumSize = new System.Drawing.Size(203, 22);
+            this.tbQx.Name = "tbQx";
+            this.tbQx.ReadOnly = true;
+            this.tbQx.Size = new System.Drawing.Size(203, 22);
+            this.tbQx.TabIndex = 18;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label9.Location = new System.Drawing.Point(7, 175);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(28, 20);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "Qx";
             // 
             // tbRo
             // 
@@ -338,7 +422,7 @@
             this.btnBuildDiagram.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBuildDiagram.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnBuildDiagram.Location = new System.Drawing.Point(6, 170);
+            this.btnBuildDiagram.Location = new System.Drawing.Point(6, 201);
             this.btnBuildDiagram.Name = "btnBuildDiagram";
             this.btnBuildDiagram.Size = new System.Drawing.Size(646, 52);
             this.btnBuildDiagram.TabIndex = 0;
@@ -352,9 +436,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbLog.Controls.Add(this.rtbLog);
-            this.gbLog.Location = new System.Drawing.Point(285, 264);
+            this.gbLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.gbLog.Location = new System.Drawing.Point(285, 298);
             this.gbLog.Name = "gbLog";
-            this.gbLog.Size = new System.Drawing.Size(658, 151);
+            this.gbLog.Size = new System.Drawing.Size(658, 265);
             this.gbLog.TabIndex = 4;
             this.gbLog.TabStop = false;
             this.gbLog.Text = "Ход вычислений";
@@ -364,18 +449,26 @@
             this.rtbLog.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rtbLog.Location = new System.Drawing.Point(3, 16);
+            this.rtbLog.Location = new System.Drawing.Point(3, 18);
             this.rtbLog.Name = "rtbLog";
             this.rtbLog.ReadOnly = true;
-            this.rtbLog.Size = new System.Drawing.Size(652, 132);
+            this.rtbLog.Size = new System.Drawing.Size(652, 244);
             this.rtbLog.TabIndex = 1;
             this.rtbLog.Text = "";
+            // 
+            // формулыToolStripMenuItem
+            // 
+            this.формулыToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.формулыToolStripMenuItem.Name = "формулыToolStripMenuItem";
+            this.формулыToolStripMenuItem.Size = new System.Drawing.Size(87, 24);
+            this.формулыToolStripMenuItem.Text = "Формулы";
+            this.формулыToolStripMenuItem.Click += new System.EventHandler(this.формулыToolStripMenuItem_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(952, 421);
+            this.ClientSize = new System.Drawing.Size(952, 569);
             this.Controls.Add(this.gbLog);
             this.Controls.Add(this.gbCounting);
             this.Controls.Add(this.groupBox1);
@@ -427,6 +520,13 @@
         private System.Windows.Forms.TextBox tbExpectedValueX;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem buildReport;
+        private System.Windows.Forms.TextBox tbQy;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox tbQxy;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox tbQx;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ToolStripMenuItem формулыToolStripMenuItem;
     }
 }
 

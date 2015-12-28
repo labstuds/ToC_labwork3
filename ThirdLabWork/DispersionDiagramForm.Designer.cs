@@ -49,7 +49,6 @@
             this.zgDispersionDiagram.ScrollMinY2 = 0D;
             this.zgDispersionDiagram.Size = new System.Drawing.Size(662, 347);
             this.zgDispersionDiagram.TabIndex = 0;
-            this.zgDispersionDiagram.Load += new System.EventHandler(this.zgDispersionDiagram_Load);
             // 
             // menuStrip1
             // 
@@ -81,7 +80,9 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "DispersionDiagramForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Диаграмма рассеивания";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

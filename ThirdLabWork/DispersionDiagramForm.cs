@@ -41,6 +41,7 @@ namespace ThirdLabWork
             lonelyPoint.Add(statDescr.countExpectedValue(xVals), statDescr.countExpectedValue(yVals));
             LineItem averageCoordsPoint = grPane.AddCurve("AverageCoordsPoint", lonelyPoint, Color.Red, SymbolType.Circle);
             averageCoordsPoint.Symbol.Size = 10;
+            //averageCoordsPoint.Line.Width = 10;
             averageCoordsPoint.Label.IsVisible = false;
         }
 
@@ -72,7 +73,7 @@ namespace ThirdLabWork
             LineItem currentCurve = grPane.AddCurve("SelectionPoints", pointsList, Color.Blue, SymbolType.Circle);
             currentCurve.Line.IsVisible = false;
             currentCurve.Symbol.Fill.Color = Color.Blue;
-            currentCurve.Symbol.Fill.Type = FillType.Solid;
+            currentCurve.Symbol.Fill.Type = FillType.Solid;            
             currentCurve.Symbol.Size = 7;
             currentCurve.Label.IsVisible = false;
         }
@@ -88,24 +89,18 @@ namespace ThirdLabWork
             Double yAverageValue = statDescr.countExpectedValue(yVals);
             Double betaOne = statDescr.countBetaOne(yVals);
             Double betaZero = statDescr.countBetaZero(xAverageValue, yAverageValue, betaOne);
-            /*
-            foreach (var value in xVals)
-            {
-                funcValue = f(value, betaZero, betaOne);
-                linePointsList.Add(funcValue, value);
-                LoggerEvs.writeLog(String.Format("Добавление точки ({0:N4}; {1:N4})", value, funcValue));
-            }
-             */
             Double funcValue;
-            funcValue = f(yVals.Max(), betaZero, betaOne);
+            funcValue = f("x", "y", yVals.Max(), betaZero, betaOne);
             linePointsList.Add(funcValue, yVals.Max());
             LoggerEvs.writeLog(String.Format("Добавление точки ({0:N4}; {1:N4})", funcValue, yVals.Max()));
-            funcValue = f(0 - yVals.Min(), betaZero, betaOne);
+            funcValue = f("x", "y", 0 - yVals.Min(), betaZero, betaOne);
             linePointsList.Add(funcValue, 0 - yVals.Min());
             LoggerEvs.writeLog(String.Format("Добавление точки ({0:N4}; {1:N4})", funcValue, 0 - yVals.Min()));
-
-            LineItem lineCurve = grPane.AddCurve("LineX", linePointsList, Color.Green, SymbolType.None);
-            lineCurve.Label.IsVisible = false;
+            String curveName = String.Format("x(y) = {0:N3} + {1:N3} * y", betaZero, betaOne);
+            LineItem lineCurve = grPane.AddCurve(curveName, linePointsList, Color.Red, SymbolType.None);
+            lineCurve.Line.Width = 3;
+            lineCurve.Line.IsAntiAlias = true;
+            //lineCurve.Label.IsVisible = false;
         }
 
         private void drawLineY()
@@ -117,38 +112,28 @@ namespace ThirdLabWork
             PointPairList linePointsList = new PointPairList();
             Double xAverageValue = statDescr.countExpectedValue(xVals);
             Double yAverageValue = statDescr.countExpectedValue(yVals);
-            Double betaOne = statDescr.countBetaOne(yVals);
+            Double betaOne = statDescr.countBetaOne(xVals);
             Double betaZero = statDescr.countBetaZero(yAverageValue, xAverageValue, betaOne);
-            /*
             Double funcValue;
-            foreach (var value in yVals)
-            {
-                funcValue = f(value, betaZero, betaOne);
-                linePointsList.Add(value, funcValue);
-                LoggerEvs.writeLog(String.Format("Добавление точки ({0:N4}; {1:N4})", value, funcValue));
-            }*/
-            Double funcValue;
-            funcValue = f(xVals.Max(), betaZero, betaOne);
+            funcValue = f("y", "x", xVals.Max(), betaZero, betaOne);
             linePointsList.Add(xVals.Max(), funcValue);
             LoggerEvs.writeLog(String.Format("Добавление точки ({0:N4}; {1:N4})", xVals.Max(), funcValue));
-            funcValue = f(0 - xVals.Min(), betaZero, betaOne);
+            funcValue = f("y", "x", 0 - xVals.Min(), betaZero, betaOne);
             linePointsList.Add(0 - xVals.Min(), funcValue);
             LoggerEvs.writeLog(String.Format("Добавление точки ({0:N4}; {1:N4})", 0 - xVals.Min(), funcValue));
-            LineItem lineCurve = grPane.AddCurve("LineY", linePointsList, Color.Green, SymbolType.None);
-            lineCurve.Label.IsVisible = false;
+            String curveName = String.Format("y(x) = {0:N3} + {1:N3} * x", betaZero, betaOne);
+            LineItem lineCurve = grPane.AddCurve(curveName, linePointsList, Color.DarkGreen, SymbolType.None);
+            lineCurve.Line.IsAntiAlias = true;
+            lineCurve.Line.Width = 3;            
+            //lineCurve.Label.IsVisible = false;
         }
 
-        private Double f(Double arg, Double betaZero, Double betaOne)
+        public static Double f(String functionName, String argumentName, Double arg, Double betaZero, Double betaOne)
         {
-            Double result = betaZero + betaOne * arg;
-            LoggerEvs.writeLog(String.Format("f = {0:N4} = {1:N4} + {2:N4} * {3:N4}", result, betaZero, betaOne, arg));
+            Double result = StatisticalDescription.f(arg, betaZero, betaOne);
+            LoggerEvs.writeLog(String.Format("{0} = {1:N4} = {2:N4} + {3:N4} * {4}", functionName, result, betaZero, betaOne, argumentName));
             return result;
-        }
-
-        private void zgDispersionDiagram_Load(object sender, EventArgs e)
-        {
-
-        }
+        }       
 
         private void saveGraphToolStripMenuItem_Click(object sender, EventArgs e)
         {

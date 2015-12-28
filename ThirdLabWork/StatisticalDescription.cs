@@ -113,5 +113,10 @@ namespace ThirdLabWork
         }
 
         #endregion
-    }
+
+        public static Double f(Double arg, Double betaZero, Double betaOne)
+        {
+            return betaZero + betaOne * arg;
+        }
+    }     
 }
